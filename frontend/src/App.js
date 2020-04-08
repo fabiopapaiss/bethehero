@@ -22,21 +22,8 @@ import Routes from './routes'
 *    </div>
 *  )
 }
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
+* Usamos um cliente HTTP para fazer o front se comunicar com o back
+*   O mais usado é o AXIOS
 * 
 *****************/
 
