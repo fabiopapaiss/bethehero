@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { FiArrowLeft } from 'react-icons/fi'
 
-import api from '   ../../services/api'
+import api from '../../services/api'
 import './styles.css'
 
 import logoImg from '../../assets/logo.svg'
@@ -14,10 +14,28 @@ export default function Register() {
     const [city, setCity] = useState('')
     const [uf, setUf] = useState('')
 
+    const history = useHistory() // Se usa o history para enviar o usuário para alguma rota quando não podemos pelo <Link>
 
-    function handleRegister(e) {
+
+    async function handleRegister(e) {
         e.preventDefault() // Este eventDefault() previne o comportamento normal de um form de uma página recarregar
 
+        const data = {
+            name,
+            email,
+            whatsapp,
+            city,
+            uf,
+        }
+
+        try {
+            const response = await api.post('/ongs', data)
+            console.log(response.data)
+            alert(`Seu ID de acesso: ${response.data.id}`)
+            history.push('/')
+        } catch (err) {
+            alert('Erro no cadastro, tente novamente')
+        }
     }
     return (
         <div className="register-container">
@@ -40,24 +58,24 @@ export default function Register() {
                     />
                     <input 
                         type="email" placeholder="Email"
-                        value={name}
-                        onChange={e => useName(e.target.value)}
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                     />
                     <input 
                         placeholder="Whatsapp"
-                        value={name}
-                        onChange={e => useName(e.target.value)}
+                        value={whatsapp}
+                        onChange={e => setWhatsapp(e.target.value)}
                     />
                     <div className="input-group">
                         <input 
                             placeholder="Cidade"
-                            value={name}
-                            onChange={e => useName(e.target.value)}
+                            value={city}
+                            onChange={e => setCity(e.target.value)}
                         />
                         <input 
                             placeholder="UF" style={{ width: 88 }}
-                            value={name}
-                            onChange={e => useName(e.target.value)}
+                            value={uf}
+                            onChange={e => setUf(e.target.value)}
                         />
                     </div>
 
