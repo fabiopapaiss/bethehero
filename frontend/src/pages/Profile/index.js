@@ -17,25 +17,27 @@ export default function Profile() {
     const ongId = localStorage.getItem('ongId')
     const ongName = localStorage.getItem('ongName')
 
-    useEffect(() => {
+    useEffect(() => { //
         api.get('/profile', { // Nossa rota /profile com get entrega 5 incidents de cada vez
             headers: {        // O Authorization para essa função está no headers, como definimos no backend
                 Authorization: ongId,
             }
-        }).then( response => { // Após isso, a variável incidents será atualizada
-            setIncidents(response.data)
+        }).then( res => { // Após isso, a variável incidents será atualizada
+            setIncidents(res.data)
+            console.log(res.data)
         })
 
     }, [ongId]) // Oque está no array é o parâmetro que indica se há mudanças, se houver, a função é rodada
 
     async function handleDeleteIncident(id) { // Nossa rota de delete
         try {
-            await api.delete(`/incidents/${id}`, {
+            await api.delete(`incidents/${id}`, {
                 headers: {
                     Authorization: ongId,
                 }
-            }) 
-            setIncidents(incidents, incidents.filter(incident => incident.id !== id)) // Realizando a atualização visual, filtrando apenas os incidents que possuem id diferente deste da função de delete
+            })
+        
+        setIncidents(incidents.filter(incident => incident.id !== id)); // Realizando a atualização visual, filtrando apenas os incidents que possuem id diferente deste da função de delete
         } catch (err) {
             alert('Erro ao deletar, tente novamente!')
         }
@@ -74,7 +76,7 @@ export default function Profile() {
                             <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(incident.value)}</p>
 
                             <button type="button">
-                                <FiTrash onClick={() => handleDeleteIncident(incidents.id)} size={20} color="#a8a8b3"/>
+                                <FiTrash onClick={() => handleDeleteIncident(incident.id)} size={20} color="#a8a8b3"/>
                             </button>
                         </li>        
                     )

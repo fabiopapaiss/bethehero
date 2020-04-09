@@ -28,8 +28,8 @@ export default function NewIncident() {
         }
         try {
             await api.post('/incidents', data, {
-                headers: {
-                    Authorizaion: ongId,
+                headers: { 
+                    Authorization: ongId,
                 }   
             })
         history.push('/profile')
